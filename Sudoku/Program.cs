@@ -2,6 +2,8 @@
 
 public class Solution
 {
+
+    const char emptyValue = '.';
     public static void Main()
     {
         char[][] board1 = [
@@ -78,7 +80,7 @@ public class Solution
 
         for (int i = 0; i < array.Length - 1; i++)
         {
-            if (array[i] == '.')
+            if (array[i] == emptyValue)
             {
                 continue;
             }
