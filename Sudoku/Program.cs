@@ -49,7 +49,7 @@ public class Solution
         //vaidate rows
         for (int i = 0; i < board.Length; i++)
         {
-            if (IsValidRow(board[i]) == false)
+            if (IsValidLine(board[i]) == false)
             {
                 Console.WriteLine("Dublicate in row " + (i + 1));
                 return false;
@@ -61,7 +61,7 @@ public class Solution
             {
                 column[j] = board[j][i];
             }
-            if (IsValidRow(column) == false)
+            if (IsValidLine(column) == false)
             {
                 Console.WriteLine("Dublicate in column " + (i + 1));
                 return false;
@@ -71,9 +71,9 @@ public class Solution
 
     }
 
-    public bool IsValidRow(char[] row)
+    public bool IsValidLine(char[] row)
     {
-        char[] array = (char[])row.ToArray();
+        char[] array = row.ToArray();
         Array.Sort(array);
 
         for (int i = 0; i < array.Length - 1; i++)
@@ -106,7 +106,7 @@ public class Solution
                         subBox[subBoxCounter++] = board[i][j];
                     }
                 }
-                if (IsValidRow(subBox) == false)
+                if (IsValidLine(subBox) == false)
                 {
                     Console.WriteLine("Dublicate in subBox " + boxRow + "," + boxColumn);
                     return false;
