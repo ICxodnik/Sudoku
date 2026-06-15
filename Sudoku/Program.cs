@@ -1,6 +1,4 @@
-﻿using System.Data.Common;
-using System.Reflection.Metadata.Ecma335;
-
+﻿
 public class Solution
 {
     const char emptyValue = '.';
@@ -65,13 +63,14 @@ public class Solution
             };
             //currentBoard = board2;
 
-            solution.showResults(currentBoard);
+            solution.ShowResults(currentBoard);
 
             Console.WriteLine("Would you like to make a move? (y/n)");
             if (Console.ReadLine()?.ToLower() == "y") { solution.GameLoop(currentBoard); }
         }
     }
-    public void showResults(char[][] board)
+
+    public void ShowResults(char[][] board)
     {
         Console.Clear();
         PrintBoard(board);
@@ -79,6 +78,7 @@ public class Solution
         var isFilled = IsFilled(board);
         Console.WriteLine($"Valid: {isValid}\nFilled: {isFilled}\nSolved: {isValid && isFilled}");
     }
+
     public void GameLoop(char[][] board)
     {
         while (true)
@@ -107,10 +107,11 @@ public class Solution
             }
             board[row][col] = value;
             Console.Clear();
-            showResults(board);
+            ShowResults(board);
         }
 
     }
+
     public bool IsSolved(char[][] board)
     {
         return IsValid(board) && IsFilled(board);
