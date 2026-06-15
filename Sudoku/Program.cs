@@ -3,71 +3,52 @@
 public class Solution
 {
     const char emptyValue = '.';
+
+    static char[][] board = [
+        ['5', '3', '.', '.', '7', '.', '.', '.', '.'],
+        ['6', '.', '.', '1', '9', '5', '.', '.', '.'],
+        ['.', '9', '2', '.', '.', '.', '.', '6', '.'],
+        ['8', '.', '.', '.', '6', '.', '.', '.', '3'],
+        ['4', '.', '.', '8', '.', '3', '.', '.', '1'],
+        ['7', '.', '.', '.', '2', '.', '.', '.', '6'],
+        ['.', '6', '.', '.', '.', '.', '2', '8', '.'],
+        ['.', '.', '.', '4', '1', '9', '.', '.', '5'],
+        ['.', '.', '.', '.', '8', '.', '.', '7', '9']
+    ];
+
+    static char[][] board1 = [
+        ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'],
+        ['4','5','6','7','0','1','2','3','C','D','E','F','8','9','A','B'],
+        ['8','9','A','B','C','D','E','F','0','1','2','3','4','5','6','7'],
+        ['C','D','E','F','8','9','A','B','4','5','6','7','0','1','2','3'],
+
+        ['1','0','3','2','5','4','7','6','9','8','B','A','D','C','F','E'],
+        ['5','4','7','6','1','0','3','2','D','C','F','E','9','8','B','A'],
+        ['9','8','B','A','D','C','F','E','1','0','3','2','5','4','7','6'],
+        ['D','C','F','E','9','8','B','A','5','4','7','6','1','0','3','2'],
+
+        ['2','3','0','1','6','7','4','5','A','B','8','9','E','F','C','D'],
+        ['6','7','4','5','2','3','0','1','E','F','C','D','A','B','8','9'],
+        ['A','B','8','9','E','F','C','D','2','3','0','1','6','7','4','5'],
+        ['E','F','C','D','A','B','8','9','6','7','4','5','2','3','0','1'],
+
+        ['3','2','1','0','7','6','5','4','B','A','9','8','F','E','D','C'],
+        ['7','6','5','4','3','2','1','0','F','E','D','C','B','A','9','8'],
+        ['B','A','9','8','F','E','D','C','3','2','1','0','7','6','5','4'],
+        ['F','E','D','C','B','A','9','8','7','6','5','4','3','2','1','0']
+    ];
+
     public static void Main()
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
 
-        char[][] board = [
-            ['5', '3', '.', '.', '7', '.', '.', '.', '.'],
-            ['6', '.', '.', '1', '9', '5', '.', '.', '.'],
-            ['.', '9', '2', '.', '.', '.', '.', '6', '.'],
-            ['8', '.', '.', '.', '6', '.', '.', '.', '3'],
-            ['4', '.', '.', '8', '.', '3', '.', '.', '1'],
-            ['7', '.', '.', '.', '2', '.', '.', '.', '6'],
-            ['.', '6', '.', '.', '.', '.', '2', '8', '.'],
-            ['.', '.', '.', '4', '1', '9', '.', '.', '5'],
-            ['.', '.', '.', '.', '8', '.', '.', '7', '9']
-        ];
-
-        char[][] board1 = [
-            ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'],
-            ['4','5','6','7','0','1','2','3','C','D','E','F','8','9','A','B'],
-            ['8','9','A','B','C','D','E','F','0','1','2','3','4','5','6','7'],
-            ['C','D','E','F','8','9','A','B','4','5','6','7','0','1','2','3'],
-
-            ['1','0','3','2','5','4','7','6','9','8','B','A','D','C','F','E'],
-            ['5','4','7','6','1','0','3','2','D','C','F','E','9','8','B','A'],
-            ['9','8','B','A','D','C','F','E','1','0','3','2','5','4','7','6'],
-            ['D','C','F','E','9','8','B','A','5','4','7','6','1','0','3','2'],
-
-            ['2','3','0','1','6','7','4','5','A','B','8','9','E','F','C','D'],
-            ['6','7','4','5','2','3','0','1','E','F','C','D','A','B','8','9'],
-            ['A','B','8','9','E','F','C','D','2','3','0','1','6','7','4','5'],
-            ['E','F','C','D','A','B','8','9','6','7','4','5','2','3','0','1'],
-
-            ['3','2','1','0','7','6','5','4','B','A','9','8','F','E','D','C'],
-            ['7','6','5','4','3','2','1','0','F','E','D','C','B','A','9','8'],
-            ['B','A','9','8','F','E','D','C','3','2','1','0','7','6','5','4'],
-            ['F','E','D','C','B','A','9','8','7','6','5','4','3','2','1','0']
-        ];
-
+        var currentBoard = board;
         var solution = new Solution();
-        var currentBoard = board1;
-        Console.WriteLine($"Sudoku:");
         solution.PrintBoard(currentBoard);
         var result = solution.IsValidSudoku(currentBoard);
         var isSolved = solution.IsSolvedSudoku(currentBoard);
         Console.WriteLine($"Valid: {result}\nSolved: {isSolved}");
         Console.ReadLine();
-    }
-
-    public void PrintBoard(char[][] board)
-    {
-        int _subBordSize = (int)Math.Sqrt(board.Length);
-
-        for (int i = 0; i < board.Length; i++)
-        {
-            if (i % _subBordSize == 0) { Console.WriteLine(new string('\u2500', board.Length * 2 + _subBordSize + 1)); }
-
-            for (int j = 0; j < board[i].Length; j++)
-            {
-                if(j % _subBordSize == 0) { Console.Write("\u2502"); }
-                Console.Write(board[i][j] + " ");
-            }
-            Console.Write("\u2502");
-            Console.WriteLine();
-        }
-        Console.WriteLine(new string('\u2500', board.Length * 2 + _subBordSize + 1));
     }
 
     public bool IsSolvedSudoku(char[][] board)
@@ -89,6 +70,7 @@ public class Solution
         }
         return true;
     }
+
     public bool IsValidSudoku(char[][] board)
     {
         //vaidate rows
@@ -113,7 +95,6 @@ public class Solution
             }
         }
         return IsValidSubBoxes(board);
-
     }
 
     public bool IsValidLine(char[] row)
@@ -161,4 +142,23 @@ public class Solution
         return true;
     }
 
+    public void PrintBoard(char[][] board)
+    {
+        Console.WriteLine($"Sudoku:");
+        int _subBordSize = (int)Math.Sqrt(board.Length);
+
+        for (int i = 0; i < board.Length; i++)
+        {
+            if (i % _subBordSize == 0) { Console.WriteLine(new string('\u2500', board.Length * 2 + _subBordSize + 1)); }
+
+            for (int j = 0; j < board[i].Length; j++)
+            {
+                if (j % _subBordSize == 0) { Console.Write("\u2502"); }
+                Console.Write(board[i][j] + " ");
+            }
+            Console.Write("\u2502");
+            Console.WriteLine();
+        }
+        Console.WriteLine(new string('\u2500', board.Length * 2 + _subBordSize + 1));
+    }
 }
