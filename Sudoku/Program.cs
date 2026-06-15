@@ -5,9 +5,9 @@ public class Solution
     public static void Main()
     {
         char[][] board = [
-            ['8', '3', '.', '.', '7', '.', '.', '.', '.'],
+            ['5', '3', '.', '.', '7', '.', '.', '.', '.'],
             ['6', '.', '.', '1', '9', '5', '.', '.', '.'],
-            ['.', '9', '8', '.', '.', '.', '.', '6', '.'],
+            ['.', '9', '2', '.', '.', '.', '.', '6', '.'],
             ['8', '.', '.', '.', '6', '.', '.', '.', '3'],
             ['4', '.', '.', '8', '.', '3', '.', '.', '1'],
             ['7', '.', '.', '.', '2', '.', '.', '.', '6'],
@@ -20,31 +20,32 @@ public class Solution
         Console.ReadLine();
     }
 
+    const int _subBordSize = 3;
+
     public static bool IsValidSudoku(char[][] board)
     {
         //vaidate rows
-        for (int i = 0; i < board.Length - 1; i++)
+        for (int i = 0; i < board.Length; i++)
         {
             if (IsValidRow(board[i]) == false)
             {
-                Console.WriteLine("Dublicate in row " + i);
+                Console.WriteLine("Dublicate in row " + (i + 1));
                 return false;
             }
 
             //validate columns
             char[] column = new char[board[i].Length];
-            for (int j = 0; j <= board[i].Length - 1; j++)
+            for (int j = 0; j < board[i].Length; j++)
             {
                 column[j] = board[j][i];
             }
             if (IsValidRow(column) == false)
             {
-                Console.WriteLine("Dublicate in column " + i);
+                Console.WriteLine("Dublicate in column " + (i + 1));
                 return false;
             }
-
         }
-        return true;
+        return IsValidSubBoxes(board);
 
     }
 
@@ -67,7 +68,30 @@ public class Solution
         return true;
     }
 
-    // public bool IsValidSubBoxes(char[]column) {
+    public static bool IsValidSubBoxes(char[][] board)
+    {
+        char[] subBox = new char[_subBordSize * _subBordSize];
 
-    // }
+        for (int boxRow = 0; boxRow < _subBordSize; boxRow++)//boxRow
+        {
+            for (int boxColumn = 0; boxColumn < _subBordSize; boxColumn++)//boxColumn
+            {
+                int subBoxCounter = 0;
+                for (int i = boxRow * _subBordSize; i < boxRow * _subBordSize + _subBordSize; i++)//row
+                {
+                    for (int j = boxColumn * _subBordSize; j < boxColumn * _subBordSize + _subBordSize; j++)//column
+                    {
+                        subBox[subBoxCounter++] = board[i][j];
+                    }
+                }
+                if (IsValidRow(subBox) == false)
+                {
+                    Console.WriteLine("Dublicate in subBox " + boxRow + "," + boxColumn);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 }
