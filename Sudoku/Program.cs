@@ -41,11 +41,30 @@ public class Solution
         ];
 
         var solution = new Solution();
-        var result = solution.IsValidSudoku(board);
-        Console.WriteLine(result);
+        var result = solution.IsValidSudoku(board1);
+        var isSolved = solution.IsSolvedSudoku(board1);
+        Console.WriteLine($"Valid: {result}\nSolved: {isSolved}");
         Console.ReadLine();
     }
+    public bool IsSolvedSudoku(char[][] board)
+    {
+        return IsValidSudoku(board) && IsFilled(board);
+    }
 
+    public bool IsFilled(char[][] board)
+    {
+        for (int i = 0; i < board.Length; i++)
+        {
+            for (int j = 0; j < board[i].Length; j++)
+            {
+                if (board[i][j] == emptyValue)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public bool IsValidSudoku(char[][] board)
     {
         //vaidate rows
