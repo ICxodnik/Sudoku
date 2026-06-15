@@ -1,4 +1,5 @@
 ﻿using System.Data.Common;
+using System.Reflection.Metadata.Ecma335;
 
 public class Solution
 {
@@ -48,6 +49,7 @@ public class Solution
     public static void Main()
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
+        var solution = new Solution();
         Console.WriteLine("• Sudoku Validator •");
 
         while (true)
@@ -62,14 +64,53 @@ public class Solution
                 _ => board2
             };
             //currentBoard = board2;
-            var solution = new Solution();
-            solution.PrintBoard(currentBoard);
-            var isValid = solution.IsValid(currentBoard);
-            var isFilled = solution.IsFilled(currentBoard);
-            Console.WriteLine($"Valid: {isValid}\nFilled: {isFilled}\nSolved: {isValid && isFilled}");
+
+            solution.showResults(currentBoard);
+
+            Console.WriteLine("Would you like to make a move? (y/n)");
+            if (Console.ReadLine()?.ToLower() == "y") { solution.GameLoop(currentBoard); }
         }
     }
+    public void showResults(char[][] board)
+    {
+        Console.Clear();
+        PrintBoard(board);
+        var isValid = IsValid(board);
+        var isFilled = IsFilled(board);
+        Console.WriteLine($"Valid: {isValid}\nFilled: {isFilled}\nSolved: {isValid && isFilled}");
+    }
+    public void GameLoop(char[][] board)
+    {
+        while (true)
+        {
+            Console.WriteLine("\nEnter your move: row col value (or -1 for exit)");
+            string input = Console.ReadLine();
+            if (input == "-1") break;
 
+            string[] parts = input.Split(' ');
+
+            if (parts.Length != 3)
+            {
+                Console.WriteLine("Нужно: row col value");
+                Console.ReadKey();
+                continue;
+            }
+
+            int row = int.Parse(parts[0]) - 1;
+            int col = int.Parse(parts[1]) - 1;
+            char value = parts[2][0];
+
+            if (row < 0 || row >= board.Length || col < 0 || col >= board.Length)
+            {
+                Console.WriteLine("False coordinates");
+                continue;
+            }
+            board[row][col] = value;
+            Console.Clear();
+            showResults(board);
+        }
+
+    }
     public bool IsSolved(char[][] board)
     {
         return IsValid(board) && IsFilled(board);
