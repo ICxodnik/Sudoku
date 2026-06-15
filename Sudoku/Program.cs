@@ -2,10 +2,11 @@
 
 public class Solution
 {
-
     const char emptyValue = '.';
     public static void Main()
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
         char[][] board1 = [
             ['5', '3', '.', '.', '7', '.', '.', '.', '.'],
             ['6', '.', '.', '1', '9', '5', '.', '.', '.'],
@@ -41,11 +42,34 @@ public class Solution
         ];
 
         var solution = new Solution();
-        var result = solution.IsValidSudoku(board1);
-        var isSolved = solution.IsSolvedSudoku(board1);
+        var currentBoard = board1;
+        Console.WriteLine($"Sudoku:");
+        solution.PrintBoard(currentBoard);
+        var result = solution.IsValidSudoku(currentBoard);
+        var isSolved = solution.IsSolvedSudoku(currentBoard);
         Console.WriteLine($"Valid: {result}\nSolved: {isSolved}");
         Console.ReadLine();
     }
+
+    public void PrintBoard(char[][] board)
+    {
+        int _subBordSize = (int)Math.Sqrt(board.Length);
+
+        for (int i = 0; i < board.Length; i++)
+        {
+            if (i % _subBordSize == 0) { Console.WriteLine(new string('\u2500', board.Length * 2 + _subBordSize + 1)); }
+
+            for (int j = 0; j < board[i].Length; j++)
+            {
+                if(j % _subBordSize == 0) { Console.Write("\u2502"); }
+                Console.Write(board[i][j] + " ");
+            }
+            Console.Write("\u2502");
+            Console.WriteLine();
+        }
+        Console.WriteLine(new string('\u2500', board.Length * 2 + _subBordSize + 1));
+    }
+
     public bool IsSolvedSudoku(char[][] board)
     {
         return IsValidSudoku(board) && IsFilled(board);
