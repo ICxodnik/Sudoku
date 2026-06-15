@@ -4,7 +4,14 @@ public class Solution
 {
     const char emptyValue = '.';
 
-    static char[][] board = [
+    static char[][] board1 = [
+        ['♥', '♦', '♣', '.'],
+        ['♠', '♣', '♦', '.'],
+        ['♣', '♠', '♥', '♦'],
+        ['♦', '.', '♠', '♥']
+    ];
+
+    static char[][] board2 = [
         ['5', '3', '.', '.', '7', '.', '.', '.', '.'],
         ['6', '.', '.', '1', '9', '5', '.', '.', '.'],
         ['.', '9', '2', '.', '.', '.', '.', '6', '.'],
@@ -16,7 +23,7 @@ public class Solution
         ['.', '.', '.', '.', '8', '.', '.', '7', '9']
     ];
 
-    static char[][] board1 = [
+    static char[][] board3 = [
         ['0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'],
         ['4','5','6','7','0','1','2','3','C','D','E','F','8','9','A','B'],
         ['8','9','A','B','C','D','E','F','0','1','2','3','4','5','6','7'],
@@ -41,19 +48,31 @@ public class Solution
     public static void Main()
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
+        Console.WriteLine("• Sudoku Validator •");
 
-        var currentBoard = board;
-        var solution = new Solution();
-        solution.PrintBoard(currentBoard);
-        var result = solution.IsValidSudoku(currentBoard);
-        var isSolved = solution.IsSolvedSudoku(currentBoard);
-        Console.WriteLine($"Valid: {result}\nSolved: {isSolved}");
-        Console.ReadLine();
+        while (true)
+        {
+            Console.WriteLine("\nEnter 1 for 4x4 board, 2 for 9x9 board, 3 for 16x16 board");
+            int boardNumber = int.Parse(Console.ReadLine() ?? "1");
+            var currentBoard = boardNumber switch
+            {
+                1 => board1,
+                2 => board2,
+                3 => board3,
+                _ => board2
+            };
+            //currentBoard = board2;
+            var solution = new Solution();
+            solution.PrintBoard(currentBoard);
+            var isValid = solution.IsValid(currentBoard);
+            var isFilled = solution.IsFilled(currentBoard);
+            Console.WriteLine($"Valid: {isValid}\nFilled: {isFilled}\nSolved: {isValid && isFilled}");
+        }
     }
 
-    public bool IsSolvedSudoku(char[][] board)
+    public bool IsSolved(char[][] board)
     {
-        return IsValidSudoku(board) && IsFilled(board);
+        return IsValid(board) && IsFilled(board);
     }
 
     public bool IsFilled(char[][] board)
@@ -71,7 +90,7 @@ public class Solution
         return true;
     }
 
-    public bool IsValidSudoku(char[][] board)
+    public bool IsValid(char[][] board)
     {
         //vaidate rows
         for (int i = 0; i < board.Length; i++)
@@ -134,7 +153,7 @@ public class Solution
                 }
                 if (IsValidLine(subBox) == false)
                 {
-                    Console.WriteLine("Dublicate in subBox " + boxRow + "," + boxColumn);
+                    Console.WriteLine("Dublicate in subBox " + ++boxRow  + "," + ++boxColumn);
                     return false;
                 }
             }
