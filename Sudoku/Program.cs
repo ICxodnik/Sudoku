@@ -15,14 +15,16 @@ public class Solution
             ['.', '.', '.', '4', '1', '9', '.', '.', '5'],
             ['.', '.', '.', '.', '8', '.', '.', '7', '9']
         ];
-        var result = IsValidSudoku(board);
+
+        var solution = new Solution();
+        var result = solution.IsValidSudoku(board);
         Console.WriteLine(result);
         Console.ReadLine();
     }
 
     const int _subBordSize = 3;
 
-    public static bool IsValidSudoku(char[][] board)
+    public bool IsValidSudoku(char[][] board)
     {
         //vaidate rows
         for (int i = 0; i < board.Length; i++)
@@ -49,10 +51,10 @@ public class Solution
 
     }
 
-    public static bool IsValidRow(char[] row)
+    public bool IsValidRow(char[] row)
     {
-        char[] array = (char[])row.Clone();
-        array.Sort();
+        char[] array = (char[])row.ToArray();
+        Array.Sort(array);
 
         for (int i = 0; i < array.Length - 1; i++)
         {
@@ -68,15 +70,14 @@ public class Solution
         return true;
     }
 
-    public static bool IsValidSubBoxes(char[][] board)
+    public bool IsValidSubBoxes(char[][] board)
     {
-        char[] subBox = new char[_subBordSize * _subBordSize];
-
         for (int boxRow = 0; boxRow < _subBordSize; boxRow++)//boxRow
         {
             for (int boxColumn = 0; boxColumn < _subBordSize; boxColumn++)//boxColumn
             {
                 int subBoxCounter = 0;
+                char[] subBox = new char[_subBordSize * _subBordSize];
                 for (int i = boxRow * _subBordSize; i < boxRow * _subBordSize + _subBordSize; i++)//row
                 {
                     for (int j = boxColumn * _subBordSize; j < boxColumn * _subBordSize + _subBordSize; j++)//column
